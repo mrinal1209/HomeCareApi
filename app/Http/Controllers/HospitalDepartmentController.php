@@ -33,7 +33,7 @@ class HospitalDepartmentController extends Controller
         $obj->save();
         return response([
           'hospital_department_id' => $obj->hospital_department_id,
-          'status' => "Created Hospital Department successfully"
+          'status' => "Created successfully"
         ],Response::HTTP_CREATED);
     }
 
@@ -45,7 +45,7 @@ class HospitalDepartmentController extends Controller
      */
     public function show(HospitalDepartment $department)
     {
-         return response(HospitalDepartment::find($department) , 200);
+         return response(HospitalDepartment::findOrFail($department->hospital_department_id) , 200);
     }
 
 
@@ -62,7 +62,7 @@ class HospitalDepartmentController extends Controller
         $department->update($request->all());
       return response([
           'hospital_department_id' => $department->hospital_department_id,
-          'status' => "Update successful"
+          'status' => "Update successfull"
       ],Response::HTTP_CREATED);
     }
 

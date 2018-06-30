@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::apiResource('/v1/api/department','HospitalDepartmentController');
+Route::apiResource('/v1/api/services','MedicalServiceController');
