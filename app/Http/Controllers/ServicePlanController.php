@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Model\ServicePlan;
+use App\Model\MedicalService;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ServicePlanController extends Controller
 {
@@ -12,19 +14,9 @@ class ServicePlanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MedicalService $service)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response(ServicePlan::where('medical_service_id',$service->medical_service_id)->get(),200);
     }
 
     /**
@@ -33,9 +25,18 @@ class ServicePlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request , MedicalService $service)
     {
-        //
+        $obj = new ServicePlan;
+        $obj->service_plan_name = $request->service_plan_name;
+        $obj->service_plan_price = $request->service_plan_price;
+        $obj->service_plan_services = $request->service_plan_services;
+        $obj->medical_service_id = $service->medical_service_id;
+        $obj->save();
+        return response([
+          'service_plan_id' => $obj->service_plan_id,
+          'status' => "Created successfully"
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -44,20 +45,9 @@ class ServicePlanController extends Controller
      * @param  \App\Model\ServicePlan  $servicePlan
      * @return \Illuminate\Http\Response
      */
-    public function show(ServicePlan $servicePlan)
+    public function show(MedicalService $service , ServicePlan $plan)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\ServicePlan  $servicePlan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(ServicePlan $servicePlan)
-    {
-        //
+        return response(ServicePlan::findOrFail($plan->service_plan_id),200);
     }
 
     /**
@@ -67,9 +57,13 @@ class ServicePlanController extends Controller
      * @param  \App\Model\ServicePlan  $servicePlan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ServicePlan $servicePlan)
+    public function update(Request $request , MedicalService $service , ServicePlan $plan)
     {
-        //
+        $plan->update($request->all());
+        return response([
+            'service_plan_id' => $plan->service_plan_id,
+            'status' => "Update successfull"
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -78,8 +72,9 @@ class ServicePlanController extends Controller
      * @param  \App\Model\ServicePlan  $servicePlan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ServicePlan $servicePlan)
+    public function destroy(MedicalService $service  , ServicePlan $plan)
     {
-        //
+      $plan->delete();
+      return response(null,Response::HTTP_NO_CONTENT);
     }
 }
