@@ -1,29 +1,20 @@
 <?php
 
-namespace App;
+namespace App\Model;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use Notifiable;
+    protected $primaryKey = 'user_id';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'name', 'email', 'password',
+        'user_first_name', 'user_last_name', 'user_email', 'user_password' ,'user_phone_number',
+        'user_profile_picture','user_residence' , 'user_city' , 'user_country' , 'user_is_active'
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    public function registration(){
+        return $this->hasMany(MedicalRegistration::class);
+    }
+
 }

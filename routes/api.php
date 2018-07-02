@@ -17,3 +17,4 @@ Route::apiResource('/v1/api/medical/department','HospitalDepartmentController');
 Route::apiResource('/v1/api/medical/service','MedicalServiceController');
 Route::apiResource('/v1/api/medical/service/{service}/plan','ServicePlanController');
 Route::apiResource('/v1/api/medical/contact','MedicalDepartmentContactController');
+Route::apiResource('/v1/api/medical/user','UserController');
