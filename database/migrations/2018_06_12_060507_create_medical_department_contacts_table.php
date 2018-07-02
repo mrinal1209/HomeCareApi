@@ -20,7 +20,7 @@ class CreateMedicalDepartmentContactsTable extends Migration
             $table->string('med_dep_contact_first_name' , 20);
             $table->string('med_dep_contact_last_name' , 20);
             $table->string('med_dep_contact_phone',10)->unique();
-            $table->string('med_dep_contact_email' , 20)->unique();
+            $table->string('med_dep_contact_email' )->unique();
             $table->string('med_dep_contact_password',20);
             $table->string('med_dep_contact_api_token')->unique()->nullable();
             $table->text('med_dep_contact_profile_picture')->nullable();

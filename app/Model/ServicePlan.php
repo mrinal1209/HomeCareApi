@@ -12,4 +12,8 @@ class ServicePlan extends Model
     public function services(){
       return $this->belongsTo(MedicalService::class);
     }
+
+    public function registration(){
+      return $this->has(MedicalRegistration::class);
+    }
 }

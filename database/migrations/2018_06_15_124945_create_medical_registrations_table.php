@@ -22,7 +22,7 @@ class CreateMedicalRegistrationsTable extends Migration
             $table->string('patient_first_name',20);
             $table->string('patient_last_name',20);
             $table->string('patient_email')->unique();
-            $table->string('user_phone_number',10)->unique();
+            $table->string('patient_phone_number',10)->unique();
             $table->string('patient_residence')->nullable();
             $table->string('patient_city',30)->nullable();
             $table->string('patient_country',30)->nullable();
