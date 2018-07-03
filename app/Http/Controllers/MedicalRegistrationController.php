@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\MedicalRegistration;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MedicalRegistrationController extends Controller
 {

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Model\MedicalRegistrationAddon;
+use App\Model\MedicalRegistration;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class MedicalRegistrationAddonController extends Controller
 {
@@ -12,30 +14,28 @@ class MedicalRegistrationAddonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MedicalRegistration $registration)
     {
-        //
+        return response(MedicalRegistrationAddon::where('medical_registration_id',$registration->medical_registration_id)->get(),200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
+   /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request , MedicalRegistration $registration)
     {
-        //
+        $obj = new MedicalRegistrationAddon;
+        $obj->medical_registration_id = $registration->medical_registration_id;
+        $obj->patient_instructions = $request->patient_instructions;
+        $obj->patient_documents = $request->patient_documents;
+        $obj->save();
+        return response([
+          'registration_addon_id' => $obj->registration_addon_id,
+          'status' => "Created successfully"
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -44,20 +44,9 @@ class MedicalRegistrationAddonController extends Controller
      * @param  \App\Model\MedicalRegistrationAddon  $medicalRegistrationAddon
      * @return \Illuminate\Http\Response
      */
-    public function show(MedicalRegistrationAddon $medicalRegistrationAddon)
+    public function show(MedicalRegistration $registration , MedicalRegistrationAddon $addon)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Model\MedicalRegistrationAddon  $medicalRegistrationAddon
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(MedicalRegistrationAddon $medicalRegistrationAddon)
-    {
-        //
+        return response(MedicalRegistrationAddon::findOrFail($addon->registration_addon_id),200);
     }
 
     /**
@@ -67,9 +56,13 @@ class MedicalRegistrationAddonController extends Controller
      * @param  \App\Model\MedicalRegistrationAddon  $medicalRegistrationAddon
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MedicalRegistrationAddon $medicalRegistrationAddon)
+    public function update(Request $request, MedicalRegistration $registration , MedicalRegistrationAddon $addon)
     {
-        //
+        $addon->update($request->all());
+        return response([
+            'registration_addon_id' => $addon->registration_addon_id,
+            'status' => "Update successfull"
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -78,8 +71,9 @@ class MedicalRegistrationAddonController extends Controller
      * @param  \App\Model\MedicalRegistrationAddon  $medicalRegistrationAddon
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MedicalRegistrationAddon $medicalRegistrationAddon)
+    public function destroy(MedicalRegistration $registration , MedicalRegistrationAddon $addon)
     {
-        //
+        $addon->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }

@@ -17,8 +17,8 @@ class CreateMedicalRegistrationAddonsTable extends Migration
             $table->increments('registration_addon_id');
             $table->integer('medical_registration_id')->unsigned();
             $table->foreign('medical_registration_id')->references('medical_registration_id')->on('medical_registrations')->onDelete('cascade');
-            $table->string('registration_instructions')->nullable();
-            $table->text('registartion_documents')->nullable();
+            $table->string('patient_instructions')->nullable();
+            $table->text('patient_documents')->nullable();
             $table->nullableTimestamps();
         });
     }
