@@ -20,3 +20,5 @@ Route::apiResource('/v1/api/medical/contact','MedicalDepartmentContactController
 Route::apiResource('/v1/api/medical/user','UserController');
 Route::apiResource('/v1/api/medical/patient/registration','MedicalRegistrationController');
 Route::apiResource('/v1/api/medical/patient/registration/{registration}/addon','MedicalRegistrationAddonController');
+Route::apiResource('/v1/api/medical/patient/case','CaseReservationController');
+Route::apiResource('/v1/api/medical/patient/case/{case}/addon','CaseReservationAddonController');

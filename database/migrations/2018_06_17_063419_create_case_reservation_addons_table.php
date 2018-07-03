@@ -17,8 +17,8 @@ class CreateCaseReservationAddonsTable extends Migration
             $table->increments('reservation_addon_id');
             $table->integer('case_reservation_id')->unsigned();
             $table->foreign('case_reservation_id')->references('case_reservation_id')->on('case_reservations')->onDelete('cascade');
-            $table->string('reservation_instructions')->nullable();
-            $table->text('reservation_documents')->nullable();
+            $table->string('case_instructions')->nullable();
+            $table->text('case_documents')->nullable();
             $table->nullableTimestamps();
         });
     }

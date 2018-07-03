@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\CaseReservation;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CaseReservationController extends Controller
 {
@@ -14,18 +15,9 @@ class CaseReservationController extends Controller
      */
     public function index()
     {
-        //
+         return response(CaseReservation::all(),200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -35,7 +27,15 @@ class CaseReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $obj = new CaseReservation;
+        $obj->medical_registration_id = $request->medical_registration_id;
+        $obj->med_dep_contact_id = $request->med_dep_contact_id;
+        $obj->case_reservation_status = $request->case_reservation_status;        
+        $obj->save();
+        return response([
+          'case_reservation_id' => $obj->case_reservation_id,
+          'status' => "Created successfully"
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -44,9 +44,9 @@ class CaseReservationController extends Controller
      * @param  \App\Model\CaseReservation  $caseReservation
      * @return \Illuminate\Http\Response
      */
-    public function show(CaseReservation $caseReservation)
+    public function show(CaseReservation $case)
     {
-        //
+        return response(CaseReservation::findOrFail($case->case_reservation_id),200);
     }
 
     /**
@@ -55,21 +55,13 @@ class CaseReservationController extends Controller
      * @param  \App\Model\CaseReservation  $caseReservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(CaseReservation $caseReservation)
+    public function update(Request $request, CaseReservation $case)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\CaseReservation  $caseReservation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, CaseReservation $caseReservation)
-    {
-        //
+        $case->update($request->all());
+        return response([
+            'case_reservation_id' => $case->case_reservation_id,
+            'status' => "Update successfull"
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -78,8 +70,9 @@ class CaseReservationController extends Controller
      * @param  \App\Model\CaseReservation  $caseReservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CaseReservation $caseReservation)
+    public function destroy(CaseReservation $case)
     {
-        //
+        $case->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
